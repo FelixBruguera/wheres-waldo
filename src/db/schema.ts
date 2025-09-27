@@ -11,7 +11,7 @@ export const characters = sqliteTable("characters", {
 })
 
 export const games = sqliteTable("games", {
-    id: int().primaryKey({ autoIncrement: true }),
+    id: text().primaryKey(),
     playerName: text("player_name"),
     startTime: integer("start_time").notNull().default(sql`(current_timestamp)`),
     endTime: integer("end_time"),
