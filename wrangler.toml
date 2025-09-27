@@ -8,6 +8,7 @@ compatibility_flags = [ "nodejs_compat" ]
 binding = "DB"
 database_name = "wheres-waldo"
 database_id = "34e4b893-7aaf-4c4d-80bd-f5b2b9f83b90"
+migrations_dir = "drizzle"
 
 [assets]
 not_found_handling = "single-page-application"
