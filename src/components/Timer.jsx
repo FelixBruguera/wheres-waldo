@@ -19,7 +19,7 @@ const Timer = ({ startTime }) => {
         return () => clearInterval(interval)
     }, [startTime])
     return (
-        <p className="font-bold text-blue-400">{`${hoursToDisplay}:${minutesToDisplay}:${secondsToDisplay}`}</p>
+        <p className="font-bold text-accent">{`${hoursToDisplay}:${minutesToDisplay}:${secondsToDisplay}`}</p>
     )
 }
 

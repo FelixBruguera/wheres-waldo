@@ -1,4 +1,4 @@
-const DropdownMenu = ({ position, options, onClick }) => {
+const DropdownMenu = ({ position, characters, onClick }) => {
     return (
         <dialog open={position}>
             <ul
@@ -8,7 +8,7 @@ const DropdownMenu = ({ position, options, onClick }) => {
                     top: `${position[1]}px`
                 }}
             >
-                {options.map(option => <li key={option} className="px-2 py-1 border-1 border-stone-600 hover:bg-stone-900 hover:cursor-pointer transition-colors" onClick={onClick}>{option}</li>)}
+                {characters.map(character => <li key={character.id} className="px-2 py-1 border-1 border-stone-600 hover:bg-stone-900 hover:cursor-pointer transition-colors" onClick={() => onClick(character)}>{character.name}</li>)}
             </ul>
         </dialog>
     )
