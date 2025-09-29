@@ -68,10 +68,8 @@ const Game = () => {
     return (
         <div className="bg-background w-dvw h-dvh">
             { notification && <Notification content={notification.message} style={notification.style} /> }
-            <dialog ref={instructions} className="mx-auto top-30">
-                <div className="w-full flex flex-col items-end p-2">
-                    <Instructions modal={instructions} found={found} />
-                </div>
+            <dialog ref={instructions} className="mx-auto top-30 rounded-lg">
+                <Instructions modal={instructions} found={found} />
             </dialog>
         { clickCoordinates && <Marker position={clickCoordinates} />}
             <nav className="fixed bg-background w-dvw h-12 flex items-center justify-between px-2">
@@ -83,7 +81,7 @@ const Game = () => {
                         Instructions
                     </Button>
                     { startTime !== 0 && <Timer startTime={startTime}/> }
-                    <p><span className="text-accent font-bold">{found.length}</span> / 4</p>
+                    <p aria-label="Characters found" title="Characters found"><span className="text-accent font-bold">{found.length}</span> / 4</p>
                 </div>
             </nav>
             <ImageContainer markers={markers} onClick={({ client, normalized }) => checkSelection(client, normalized)} />

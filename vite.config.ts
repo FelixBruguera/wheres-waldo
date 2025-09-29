@@ -8,5 +8,5 @@ export default defineConfig({
     server: {
     port: 3001,
   },
-  plugins: [cloudflare(),react(), tailwindcss()]
+  plugins: [cloudflare(),react(), tailwindcss()],
 })

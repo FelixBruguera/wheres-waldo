@@ -6,7 +6,8 @@
     "build": "vite build",
     "preview": "$npm_execpath run build && vite preview",
     "deploy": "$npm_execpath run build && wrangler deploy",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "test": "vitest"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
@@ -27,6 +28,7 @@
     "tsx": "^4.20.6",
     "vite": "^6.3.5",
     "vite-ssr-components": "^0.5.1",
+    "vitest": "^3.2.4",
     "wrangler": "^4.17.0"
   }
 }

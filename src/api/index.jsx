@@ -126,14 +126,19 @@ app.patch("/games/:id", async (c) => {
   if (name.length > 20) {
     return c.newResponse(JSON.stringify({error: "Name must have less than 20 characters"}), 400)
   }
-  const response = await db.update(schema.games).set({ playerName: name }).where(eq(schema.games.id, id)).returning({ playerName: schema.games.playerName})
-  return c.json(response[0])
+  const response = await db.update(schema.games).set({ playerName: name }).where(and(eq(schema.games.id, id), isNull(schema.games.playerName))).returning({ playerName: schema.games.playerName})
+  if (response.length > 0) {
+    return c.json(response[0])
+  }
+  else {
+    return c.newResponse(null, 500)
+  }
 })
 
 app.get("/leaderboard", async (c) => {
   const db = drizzle(c.env.DB, { schema: schema })
   const response = await db.
-  select({ id: schema.games.id, playerName: schema.games.playerName, score: schema.games.scoreInSeconds})
+  select({ playerName: schema.games.playerName, score: schema.games.scoreInSeconds})
   .from(schema.games)
   .where(and(isNotNull(schema.games.scoreInSeconds), isNotNull(schema.games.playerName)))
   .orderBy(asc(schema.games.scoreInSeconds))
