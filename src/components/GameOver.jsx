@@ -3,7 +3,7 @@ import { formatSeconds } from "../utils/formatSeconds"
 import Button from "./Button"
 
 const GameOver = ({ score, playerName, updateName }) => {
-    const wrapperClass = "bg-white/85 h-fit w-fit px-15 py-7 rounded-md mx-auto flex flex-col gap-3 items-center justify-center"
+    const wrapperClass = "bg-white/85 h-fit w-fit px-10 lg:px-15 py-7 rounded-md mx-auto flex flex-col gap-3 items-center justify-center"
     const Wrapper = playerName ? "div" : "form"
     const handleSubmit = (e) => {
         e.preventDefault()

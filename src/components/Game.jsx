@@ -66,7 +66,7 @@ const Game = () => {
         return <GameOver score={score} playerName={playerName} updateName={updateName} />
     }
     return (
-        <div className="bg-background">
+        <div className="bg-background w-dvw h-dvh">
             { notification && <Notification content={notification.message} style={notification.style} /> }
             <dialog ref={instructions} className="mx-auto top-30">
                 <div className="w-full flex flex-col items-end p-2">
@@ -74,16 +74,16 @@ const Game = () => {
                 </div>
             </dialog>
         { clickCoordinates && <Marker position={clickCoordinates} />}
-            <nav className="fixed bg-background w-full h-12 flex items-center justify-between px-2">
+            <nav className="fixed bg-background w-dvw h-12 flex items-center justify-between px-2">
                 <Link to="/">
                     <h1 className="text-xl font-bold text-accent">Where's Waldo?</h1>
                 </Link>
-                <div className="flex items-center justify-evenly w-4/10">
+                <div className="flex items-center justify-evenly w-6/10 lg:w-4/10">
                     <Button onClick={() => instructions.current.showModal()} >
                         Instructions
                     </Button>
                     { startTime !== 0 && <Timer startTime={startTime}/> }
-                    <p>Found <span className="text-accent font-bold">{found.length}</span> out of 4</p>
+                    <p><span className="text-accent font-bold">{found.length}</span> / 4</p>
                 </div>
             </nav>
             <ImageContainer markers={markers} onClick={({ client, normalized }) => checkSelection(client, normalized)} />
