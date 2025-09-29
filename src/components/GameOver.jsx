@@ -17,11 +17,11 @@ const GameOver = ({ score, playerName, updateName }) => {
                 <p>Your time: <span className="text-accent">{formatSeconds(score)}</span></p>
                 {
                     playerName ? <p className="font-bold">{playerName}</p> :
-                    <input type="text" id="name" maxLength="20" placeholder="Claim your time" className="px-2 bg-stone-300 border-1 border-stone-400 rounded-lg"/>
+                    <input type="text" id="name" minLength="3" maxLength="20" placeholder="Claim your time" className="px-2 bg-stone-300 border-1 border-stone-400 rounded-lg"/>
                 }
                 <div className="flex items-center justify-evenly w-full">
-                    { !playerName && <Button className="bg-accent text-white">Save</Button> }
-                    <Link to="/"><Button type="button">Play again</Button></Link>
+                    { !playerName && <Button className="bg-accent hover:bg-red-800 text-white">Save</Button> }
+                    <Link to="/"><Button type="button" className="border-1 border-zinc-400">Leaderboard</Button></Link>
                 </div>
             </Wrapper>
         </div>

@@ -123,8 +123,8 @@ app.patch("/games/:id", async (c) => {
   const db = drizzle(c.env.DB, { schema: schema })
   const id = c.req.param("id")
   const { name } = await c.req.json()
-  if (name.length > 20) {
-    return c.newResponse(JSON.stringify({error: "Name must have less than 20 characters"}), 400)
+  if (name.length > 20 || name.length < 3) {
+    return c.newResponse(JSON.stringify({error: "Name must have more than 3 and less than 20 characters"}), 400)
   }
   const response = await db.update(schema.games).set({ playerName: name }).where(and(eq(schema.games.id, id), isNull(schema.games.playerName))).returning({ playerName: schema.games.playerName})
   if (response.length > 0) {
