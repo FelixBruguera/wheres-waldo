@@ -1,6 +1,6 @@
-const ImageContainer = ({ onClick, zoomLevel }) => {
-    console.log(zoomLevel)
-    const zoomClass = zoomLevel === 1 ? "size-full" : zoomLevel == 2 ? "w-500" : "w-600"
+import Marker from "./Marker"
+
+const ImageContainer = ({ onClick, markers }) => {
     const handleClick = (e) => {
         const rect = e.currentTarget.getBoundingClientRect()
         const x = e.clientX - rect.left
@@ -11,8 +11,11 @@ const ImageContainer = ({ onClick, zoomLevel }) => {
     }
 
     return (
-        <div className={`${zoomClass}`} onClick={(e) => handleClick(e)}>
-            <img src="image.jpeg" className="size-full" />
+        <div className="w-800 pt-12" onClick={handleClick}>
+                <img src="image.jpeg" className="size-full" />
+                {markers && markers.map((marker, index) => (
+                    <Marker key={index} position={marker} isFound={true} />
+                ))}
         </div>
     )
 }

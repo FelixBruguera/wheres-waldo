@@ -10,10 +10,13 @@ const Start = () => {
         .then(data => navigate(`/${data[0].id}`) )
     }
     return (
-        <div className="absolute flex flex-col gap-3 items-center justify-center w-dvw h-dvh bg-gray-200">
-            <Instructions />
-            <Button onClick={onClick}>Start game</Button>
-        </div>
+        <section className="bg-background h-dvh w-dvw flex flex-col items-center py-3">
+            <h1 className="text-2xl font-bold text-accent">Where's Waldo?</h1>
+            <div className="flex flex-col gap-10 items-center justify-center h-8/10 w-full">
+                {/* <Instructions /> */}
+                <Button onClick={onClick}>Start game</Button>
+            </div>
+        </section>
     )
 }
 
