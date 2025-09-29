@@ -9,10 +9,12 @@ import { differenceInSeconds } from "date-fns"
 import Timer from "./Timer"
 import Notification from "./Notification"
 import Marker from "./Marker"
+import GameOver from "./GameOver"
 
 const Game = () => {
     const { id } = useParams()
     const [score, setScore] = useState(false)
+    const [playerName, setPlayerName] = useState(false)
     const [clickCoordinates, setClickCoordinates] = useState(false)
     const [markers, setMarkers] = useState([])
     const [startTime, setStartTime] = useState(0)
@@ -25,6 +27,7 @@ const Game = () => {
             setStartTime(data.gameData.startTime)
             setFound(data.characters)
             setScore(data.gameData.score)
+            setPlayerName(data.gameData.playerName)
         })
     }, [])
     const [notificationTimeout, setNotificationTimeout] = useState(null)
@@ -32,7 +35,7 @@ const Game = () => {
     const checkSelection = async (clientCoords, normalizedCoords) => {
         setClickCoordinates(clientCoords)
         clearTimeout(notificationTimeout)
-        const response = await fetch(`/api/games/${id}`, { method: "PATCH", body: JSON.stringify({ x: normalizedCoords[0], y: normalizedCoords[1]})})
+        const response = await fetch(`/api/games/${id}`, { method: "POST", body: JSON.stringify({ x: normalizedCoords[0], y: normalizedCoords[1]})})
         const data = await response.json()
         if (response.ok) {
             setFound((prev) => prev.concat(data.found))
@@ -48,16 +51,19 @@ const Game = () => {
             setNotification({ message: data.error })
         }
         setNotificationTimeout(setTimeout(() => setNotification(false), 5000))
-
+    }
+    const updateName = async (name) => {
+        const response = await fetch(`/api/games/${id}`, { method: "PATCH", body: JSON.stringify({ name: name })})
+        const data = await response.json()
+        if (response.ok) {
+            setPlayerName(data.playerName)
+        }
+        else {
+            setNotification({message: "Something went wrong, try again"})
+        }
     }
     if (score > 0) {
-        return (
-            <div>
-                <h1>You've found them all!</h1>
-                <p>Your score: {score}</p>
-                <Link to="/"><Button>Play again</Button></Link>
-            </div>
-        )
+        return <GameOver score={score} playerName={playerName} updateName={updateName} />
     }
     return (
         <div className="bg-background">

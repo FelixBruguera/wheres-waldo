@@ -1,7 +1,7 @@
 import { drizzle } from "drizzle-orm/d1"
 import { Hono } from 'hono'
 import * as schema from "../db/schema"
-import { and, count, eq, gte, isNull, lte, or, sql } from "drizzle-orm"
+import { and, asc, count, eq, gte, isNotNull, isNull, lte, or, sql } from "drizzle-orm"
 
 const app = new Hono().basePath("/api")
 
@@ -12,7 +12,8 @@ app.get("/games/:id", async (c) => {
     const [gameData, characters] = await Promise.all([
       db.select({
       startTime: schema.games.startTime,
-      score: schema.games.scoreInSeconds
+      score: schema.games.scoreInSeconds,
+      playerName: schema.games.playerName
     })
     .from(schema.games)
     .where(eq(schema.games.id, id)),
@@ -47,7 +48,7 @@ app.post('/games', async (c) => {
   }
 })
 
-app.patch("/games/:id", async (c) => {
+app.post("/games/:id", async (c) => {
   const db = drizzle(c.env.DB, { schema: schema })
   const id = c.req.param("id")
   const { x, y } = await c.req.json()
@@ -116,6 +117,28 @@ app.patch("/games/:id", async (c) => {
       return c.newResponse(null, 500)
     }
   }
+})
+
+app.patch("/games/:id", async (c) => {
+  const db = drizzle(c.env.DB, { schema: schema })
+  const id = c.req.param("id")
+  const { name } = await c.req.json()
+  if (name.length > 20) {
+    return c.newResponse(JSON.stringify({error: "Name must have less than 20 characters"}), 400)
+  }
+  const response = await db.update(schema.games).set({ playerName: name }).where(eq(schema.games.id, id)).returning({ playerName: schema.games.playerName})
+  return c.json(response[0])
+})
+
+app.get("/leaderboard", async (c) => {
+  const db = drizzle(c.env.DB, { schema: schema })
+  const response = await db.
+  select({ id: schema.games.id, playerName: schema.games.playerName, score: schema.games.scoreInSeconds})
+  .from(schema.games)
+  .where(and(isNotNull(schema.games.scoreInSeconds), isNotNull(schema.games.playerName)))
+  .orderBy(asc(schema.games.scoreInSeconds))
+  .limit(10)
+  return c.json(response)
 })
 
 export default app
