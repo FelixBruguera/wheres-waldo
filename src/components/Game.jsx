@@ -3,9 +3,6 @@ import Button from "./Button"
 import ImageContainer from "./ImageContainer"
 import { useEffect, useRef, useState } from "react"
 import Instructions from "./Instructions"
-import DropdownMenu from "./DropdownMenu"
-import { formatInTimeZone } from "date-fns-tz"
-import { differenceInSeconds } from "date-fns"
 import Timer from "./Timer"
 import Notification from "./Notification"
 import Marker from "./Marker"
@@ -21,7 +18,7 @@ const Game = () => {
     const [found, setFound] = useState([])
     const [notification, setNotification] = useState(false)
     useEffect(() => {
-        fetch(`api/games/${id}`)
+        fetch(`/api/games/${id}`)
         .then(response => response.json())
         .then(data => {
             setStartTime(data.gameData.startTime)
@@ -33,7 +30,6 @@ const Game = () => {
     const [notificationTimeout, setNotificationTimeout] = useState(null)
     const instructions = useRef(null)
     const checkSelection = async (clientCoords, normalizedCoords) => {
-        setClickCoordinates(clientCoords)
         clearTimeout(notificationTimeout)
         const response = await fetch(`/api/games/${id}`, { method: "POST", body: JSON.stringify({ x: normalizedCoords[0], y: normalizedCoords[1]})})
         const data = await response.json()
@@ -48,6 +44,7 @@ const Game = () => {
             }
         }
         else {
+            setClickCoordinates(clientCoords)
             setNotification({ message: data.error })
         }
         setNotificationTimeout(setTimeout(() => setNotification(false), 5000))
@@ -68,7 +65,7 @@ const Game = () => {
     return (
         <div className="bg-background w-dvw h-dvh">
             { notification && <Notification content={notification.message} style={notification.style} /> }
-            <dialog ref={instructions} className="mx-auto top-30 rounded-lg">
+            <dialog ref={instructions} className="mx-auto top-30 rounded-lg ">
                 <Instructions modal={instructions} found={found} />
             </dialog>
         { clickCoordinates && <Marker position={clickCoordinates} />}

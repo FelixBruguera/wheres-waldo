@@ -12,10 +12,10 @@ const ImageContainer = ({ onClick, markers }) => {
 
     return (
         <div className="w-800 pt-12" onClick={handleClick}>
-                <img src="image.jpeg" className="size-full" />
-                {markers && markers.map((marker, index) => (
-                    <Marker key={index} position={marker} isFound={true} />
-                ))}
+            <img src="image.jpeg" className="size-full" />
+            {markers && markers.map((marker, index) => (
+                <Marker key={index} position={marker} isFound={true} />
+            ))}
         </div>
     )
 }

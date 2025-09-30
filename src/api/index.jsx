@@ -25,6 +25,9 @@ app.get("/games/:id", async (c) => {
     .leftJoin(schema.characters, eq(schema.foundCharacters.characterId, schema.characters.id))
     .where(eq(schema.foundCharacters.gameId, id))
   ])
+  if (gameData.length < 1) {
+    return c.newResponse(null, 404)
+  }
     return c.json({
       gameData: gameData[0],
       characters: characters
@@ -124,13 +127,14 @@ app.patch("/games/:id", async (c) => {
   const id = c.req.param("id")
   const { name } = await c.req.json()
   if (name.length > 20 || name.length < 3) {
-    return c.newResponse(JSON.stringify({error: "Name must have more than 3 and less than 20 characters"}), 400)
+    return c.json({error: "Name must have more than 3 and less than 20 characters"}, 400)
   }
   const response = await db.update(schema.games).set({ playerName: name }).where(and(eq(schema.games.id, id), isNull(schema.games.playerName))).returning({ playerName: schema.games.playerName})
   if (response.length > 0) {
     return c.json(response[0])
   }
   else {
+    console.log(response)
     return c.newResponse(null, 500)
   }
 })
