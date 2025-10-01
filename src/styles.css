@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-accent: oklch(57.7% 0.245 27.325);
+  --color-background: oklch(96.7% 0.003 264.542);
+}
+:root {
+  font-family: "Roboto Condensed";
+}
