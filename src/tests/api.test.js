@@ -92,7 +92,7 @@ describe("The API", () => {
             expect(mockDb.update).toHaveBeenCalledTimes(1)
             expect(mockUpdate.set).toHaveBeenCalledWith({ playerName: "my name"})
         })
-        it("returns 500 when the game alreadyh as a name or the id doesn't exist", async () => {
+        it("returns 500 when the game already has a name or the id doesn't exist", async () => {
             const request = new Request(`http://localhost/api/games/game-123`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },

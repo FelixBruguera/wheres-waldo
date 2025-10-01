@@ -95,7 +95,6 @@ app.post("/games/:id", async (c) => {
       ])
       return c.json({
         status: "finished",
-        found: found[0],
         score: score[0].score
       })
     }
@@ -126,7 +125,7 @@ app.patch("/games/:id", async (c) => {
   const db = drizzle(c.env.DB, { schema: schema })
   const id = c.req.param("id")
   const { name } = await c.req.json()
-  if (name.length > 20 || name.length < 3) {
+  if (!name || name.length > 20 || name.length < 3) {
     return c.json({error: "Name must have more than 3 and less than 20 characters"}, 400)
   }
   const response = await db.update(schema.games).set({ playerName: name }).where(and(eq(schema.games.id, id), isNull(schema.games.playerName))).returning({ playerName: schema.games.playerName})

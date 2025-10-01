@@ -52,15 +52,16 @@ const Game = () => {
     const updateName = async (name) => {
         const response = await fetch(`/api/games/${id}`, { method: "PATCH", body: JSON.stringify({ name: name })})
         const data = await response.json()
+        console.log(data.error)
         if (response.ok) {
-            setPlayerName(data.playerName)
+            return setPlayerName(data.playerName)
         }
         else {
-            setNotification({message: "Something went wrong, try again"})
+            return setNotification({ message: data.error || "Something went wrong, try again"})
         }
     }
     if (score > 0) {
-        return <GameOver score={score} playerName={playerName} updateName={updateName} />
+        return <GameOver score={score} playerName={playerName} notification={notification} updateName={updateName} />
     }
     return (
         <div className="bg-background w-dvw h-dvh">
