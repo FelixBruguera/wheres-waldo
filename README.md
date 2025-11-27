@@ -1,5 +1,8 @@
 
-# Where's Waldo?
+<div style="display:flex;align-items:center">
+  <img align="left" height="40" width="40" alt="waldo" src="https://github.com/user-attachments/assets/1d8f80e4-d4f8-4a2c-8476-812ed3984def" />
+  <h1>Where's Waldo?</h1>
+</div>
 
 A photo tagging web app, part of [The Odin Project's curriculum](https://www.theodinproject.com/lessons/react-new-where-s-waldo-a-photo-tagging-app)
 
